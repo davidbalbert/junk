@@ -1,0 +1,3 @@
+module Junk
+  # Your code goes here...
+end
