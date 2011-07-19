@@ -45,6 +45,9 @@ module Junk
     def add(file)
       # TODO: Make this do something
       # deal with recursive directory creation if the path is deep
+      # instead of recursively adding, could do gross filename substitution and keep it flat in the junk drawer
+      #
+      # TODO: also add appending to .gitignore if it exists
     end
 
     private
