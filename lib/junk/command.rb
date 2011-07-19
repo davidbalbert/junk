@@ -1,4 +1,5 @@
 require 'thor'
+require 'fileutils'
 
 module Junk
   class Command < Thor
@@ -29,7 +30,6 @@ module Junk
       check_for_git!
       setup unless prefix_is_setup?
 
-      drawer_name = File.basename(Dir.pwd)
       inside(junk_home) do
         if File.exists?(File.join(junk_home, drawer_name))
           error "There is already a junk drawer called #{drawer_name}."
@@ -39,6 +39,12 @@ module Junk
         Dir.mkdir drawer_name
         say "Alright, #{Dir.pwd} now has a junk drawer."
       end
+    end
+
+    desc "add FILE", "Moves FILE to your junk drawer and symlinks it from it's old location"
+    def add(file)
+      # TODO: Make this do something
+      # deal with recursive directory creation if the path is deep
     end
 
     private
@@ -76,6 +82,10 @@ module Junk
 
     def junk_home
       @junk_home ||= File.join(ENV["HOME"], ".junk")
+    end
+
+    def drawer_name
+      @drawer_name ||= File.basename(Dir.pwd)
     end
 
     def error(str)
