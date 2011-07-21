@@ -49,8 +49,8 @@ module Junk
       say "Alright, #{Dir.pwd} now has a junk drawer."
     end
 
-    desc "add FILE", "Moves FILE to your junk drawer and symlinks it from it's old location"
-    def add(file)
+    desc "track FILE", "Moves FILE to your junk drawer and symlinks it from it's old location"
+    def track(file)
       inside(find_junk_drawer_symlink!) do
         unless File.exists? file
           error "#{file} doesn't seem to exist."
