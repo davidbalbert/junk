@@ -1,4 +1,5 @@
 Copyright (c) 2011 by David Albert, http://dave.is/
+Portions Copyright (c) 2008 Yehuda Katz (Thor project)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -172,6 +172,7 @@ EOS
 
     #################################################################
     # Taken from Thor
+    # Copyright (c) 2008 Yehuda Katz
     #
     def inside(dir, &block)
       @destination_stack.push File.expand_path(dir, destination_root)
