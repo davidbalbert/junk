@@ -5,4 +5,4 @@ $:.unshift File.join(File.dirname(__FILE__), "..", "lib")
 require 'junk'
 require 'junk/command'
 
-Junk::Command.start
+Junk::Command.run(*ARGV)

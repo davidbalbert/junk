@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "junk"
 
-  s.add_dependency "thor", "~> 0.14.6"
   s.add_dependency "trollop", "~> 1.16.2"
 
   s.files         = `git ls-files`.split("\n")
