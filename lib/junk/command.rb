@@ -5,14 +5,15 @@ require 'trollop'
 module Junk
   class Command
 
-    SUB_COMMANDS = %w(init track help)
+    SUB_COMMANDS = %w(init track status help)
 
     HELP_STRING = <<-EOS
 usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
 
 Commands:
    init     Initialize a new junk drawer for the current directory
-   track    Moves a file to your junk drawer and symlinks it from it's old location
+   track    Moves a file to the junk drawer and symlinks it from it's old location
+   status   Shows the status of the current junk drawer
    help     Displays information about a command
 EOS
 
@@ -115,6 +116,12 @@ EOS
         File.symlink(new_path, relative_path)
 
         add_to_git_ignore(relative_path)
+      end
+    end
+
+    def status
+      inside(junk_drawer_for_directory(find_junk_drawer_symlink!)) do
+        system("git status .")
       end
     end
 
