@@ -13,7 +13,7 @@ usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
 Commands:
    init     Initialize a new junk drawer for the current directory
    track    Moves a file to the junk drawer and symlinks it from it's old location
-   status   Shows the status of the current junk drawer
+   status   Runs `git status` in the current junk drawer
    help     Displays information about a command
 EOS
 
@@ -126,7 +126,25 @@ EOS
     end
 
     def help
-      puts HELP_STRING if @args.empty?
+      if @args.empty?
+        puts HELP_STRING
+        return
+      end
+
+      cmd = @args.shift
+
+      puts case cmd
+        when "init"
+          "usage: junk init\n\nInitialize a new junk drawer for the current directory"
+        when "track"
+          "usage: junk track FILE\n\nMoves FILE to the junk drawer and symlinks it from it's old location"
+        when "status"
+          "usage: junk status\n\nRuns `git status` in the current junk drawer"
+        when "help"
+          "usage: junk help COMMAND\n\nShows usage information for COMMAND"
+        else
+          error "unknown command '#{cmd}'."
+        end
     end
 
     private
