@@ -5,7 +5,8 @@ require 'trollop'
 module Junk
   class Command
 
-    SUB_COMMANDS = %w(init track status add commit help)
+    PROXY_COMMANDS = %w(add commit)
+    SUB_COMMANDS = %w(init track status help) + PROXY_COMMANDS
 
     HELP_STRING = <<-EOS
 usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
@@ -13,11 +14,23 @@ usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
 Commands:
    init     Initialize a new junk drawer for the current directory
    track    Moves a file to the junk drawer and symlinks it from it's old location
-   status   Runs `git status` in the current junk drawer
-   add      Runs `git add` in the current junk drawer
-   commit   Runs `git commit` in the junk drawer
    help     Displays information about a command
+
+Proxy Commands (passed to git):
+   status
+#{PROXY_COMMANDS.inject("") { |str, c| str << "   #{c}\n" }}
 EOS
+
+    CMD_HELP_STRINGS = {
+      "init" => "usage: junk init\n\nInitialize a new junk drawer for the current directory",
+      "track" => "usage: junk track FILE\n\nMoves FILE to the junk drawer and symlinks it from it's old location",
+      "status" => "usage: junk status\n\nRuns `git status` in the current junk drawer",
+      "help" => "usage: junk help COMMAND\n\nShows usage information for COMMAND"
+    }
+
+    PROXY_COMMANDS.each do |c|
+      CMD_HELP_STRINGS[c] = "usage: junk #{c} ARGUMENTS\n\nRuns `git #{c} ARGUMENTS` in the current junk drawer"
+    end
 
     attr_reader :args
     def initialize(*args)
@@ -148,22 +161,11 @@ EOS
 
       cmd = @args.shift
 
-      puts case cmd
-        when "init"
-          "usage: junk init\n\nInitialize a new junk drawer for the current directory"
-        when "track"
-          "usage: junk track FILE\n\nMoves FILE to the junk drawer and symlinks it from it's old location"
-        when "status"
-          "usage: junk status\n\nRuns `git status` in the current junk drawer"
-        when "add"
-          "usage: junk add\n\nRuns `git add` in the current junk drawer, passing on all subsequent arguments"
-        when "commit"
-          "usage: junk commit\n\nRuns `git commit` in the current junk drawer, passing on all subsequent arguments"
-        when "help"
-          "usage: junk help COMMAND\n\nShows usage information for COMMAND"
-        else
-          error "unknown command '#{cmd}'."
-        end
+      if CMD_HELP_STRINGS[cmd]
+        puts CMD_HELP_STRINGS[cmd]
+      else
+        error "unknown command '#{cmd}'."
+      end
     end
 
     private
