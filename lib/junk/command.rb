@@ -69,7 +69,11 @@ EOS
           exit(1)
         end
 
-      self.send(cmd)
+      if PROXY_COMMANDS.include? cmd
+        proxy_command(cmd)
+      else
+        self.send(cmd)
+      end
     end
 
     def init
@@ -137,19 +141,13 @@ EOS
 
     def status
       inside(junk_repo!) do
-        system("git status .")
+        exec("git status .")
       end
     end
 
-    def add
+    def proxy_command(cmd)
       inside(junk_repo!) do
-        system("git add #{@args.join(" ")}")
-      end
-    end
-
-    def commit
-      inside(junk_repo!) do
-        exec("git commit #{@args.join(" ")}")
+        exec("git #{cmd} #{@args.join(" ")}")
       end
     end
 
