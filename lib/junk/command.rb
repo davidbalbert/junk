@@ -5,7 +5,7 @@ require 'trollop'
 module Junk
   class Command
 
-    SUB_COMMANDS = %w(init track status add help)
+    SUB_COMMANDS = %w(init track status add commit help)
 
     HELP_STRING = <<-EOS
 usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
@@ -15,6 +15,7 @@ Commands:
    track    Moves a file to the junk drawer and symlinks it from it's old location
    status   Runs `git status` in the current junk drawer
    add      Runs `git add` in the current junk drawer
+   commit   Runs `git commit` in the junk drawer
    help     Displays information about a command
 EOS
 
@@ -133,6 +134,12 @@ EOS
       end
     end
 
+    def commit
+      inside(junk_repo!) do
+        exec("git commit #{@args.join(" ")}")
+      end
+    end
+
     def help
       if @args.empty?
         puts HELP_STRING
@@ -150,6 +157,8 @@ EOS
           "usage: junk status\n\nRuns `git status` in the current junk drawer"
         when "add"
           "usage: junk add\n\nRuns `git add` in the current junk drawer, passing on all subsequent arguments"
+        when "commit"
+          "usage: junk commit\n\nRuns `git commit` in the current junk drawer, passing on all subsequent arguments"
         when "help"
           "usage: junk help COMMAND\n\nShows usage information for COMMAND"
         else
