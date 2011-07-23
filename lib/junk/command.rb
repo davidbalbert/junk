@@ -5,7 +5,7 @@ require 'trollop'
 module Junk
   class Command
 
-    SUB_COMMANDS = %w(init track status help)
+    SUB_COMMANDS = %w(init track status add help)
 
     HELP_STRING = <<-EOS
 usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
@@ -14,6 +14,7 @@ Commands:
    init     Initialize a new junk drawer for the current directory
    track    Moves a file to the junk drawer and symlinks it from it's old location
    status   Runs `git status` in the current junk drawer
+   add      Runs `git add` in the current junk drawer
    help     Displays information about a command
 EOS
 
@@ -48,9 +49,10 @@ EOS
 
       cmd = @args.shift
       @cmd_opts = case cmd
-        when "init", "track", "help"
+        when *SUB_COMMANDS
         else
           error "unknown command '#{cmd}'."
+          exit(1)
         end
 
       self.send(cmd)
@@ -120,8 +122,14 @@ EOS
     end
 
     def status
-      inside(junk_drawer_for_directory(find_junk_drawer_symlink!)) do
+      inside(junk_repo!) do
         system("git status .")
+      end
+    end
+
+    def add
+      inside(junk_repo!) do
+        system("git add #{@args.join(" ")}")
       end
     end
 
@@ -140,6 +148,8 @@ EOS
           "usage: junk track FILE\n\nMoves FILE to the junk drawer and symlinks it from it's old location"
         when "status"
           "usage: junk status\n\nRuns `git status` in the current junk drawer"
+        when "add"
+          "usage: junk add\n\nRuns `git add` in the current junk drawer, passing on all subsequent arguments"
         when "help"
           "usage: junk help COMMAND\n\nShows usage information for COMMAND"
         else
@@ -230,6 +240,10 @@ EOS
 
     def get_drawer_name(dir)
       File.basename(dir)
+    end
+
+    def junk_repo!
+      junk_drawer_for_directory(find_junk_drawer_symlink!)
     end
 
     def junk_drawer_for_directory(dir)
