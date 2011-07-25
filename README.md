@@ -31,8 +31,8 @@ Junk requires a version of git. It will probably work with most versions, but I 
     $ junk add .rvmrc # proxy's to git
     $ junk commit -m "tracking my .rvmrc file in junk"
 
-    $ junk remote add YOUR_GIT_REMOTE
-    $ junk push
+    $ junk remote add origin YOUR_GIT_REMOTE
+    $ junk push -u origin master
 
     # on your other development machine
     $ cd myproject
