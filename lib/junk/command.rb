@@ -239,7 +239,12 @@ EOS
 
     def add_to_git_ignore(path)
       if File.exists? ".gitignore"
-        File.open(".gitignore", "a") { |f| f.puts(path) }
+        File.open(".gitignore", "r+") do |f|
+          f.each do |l|
+            return if l.chomp == path
+          end
+          f.puts(path)
+        end
       end
     end
 
