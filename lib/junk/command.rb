@@ -62,6 +62,8 @@ EOS
         exit(0)
       end
 
+      check_for_git!
+
       cmd = @args.shift
       @cmd_opts = case cmd
         when *SUB_COMMANDS
@@ -78,7 +80,6 @@ EOS
     end
 
     def init
-      check_for_git!
       setup unless prefix_is_setup?
 
       drawer_name = get_drawer_name(Dir.pwd)
