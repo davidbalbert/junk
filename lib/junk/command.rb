@@ -82,7 +82,7 @@ EOS
 
       drawer_name = get_drawer_name(Dir.pwd)
 
-      inside(junk_home) do
+      Dir.chdir(junk_home) do
         if File.exists?(File.join(junk_home, drawer_name))
           error "There is already a junk drawer called #{drawer_name}."
           exit(1)
@@ -101,7 +101,7 @@ EOS
     def track
       file = @args.shift
 
-      inside(find_junk_drawer_symlink!) do
+      Dir.chdir(find_junk_drawer_symlink!) do
         unless File.exists? file
           error "#{file} doesn't seem to exist."
           exit(1)
@@ -140,13 +140,13 @@ EOS
     end
 
     def status
-      inside(junk_repo!) do
+      Dir.chdir(junk_repo!) do
         exec("git status .")
       end
     end
 
     def proxy_command(cmd)
-      inside(junk_repo!) do
+      Dir.chdir(junk_repo!) do
         exec("git #{cmd} #{@args.join(" ")}")
       end
     end
@@ -189,7 +189,7 @@ EOS
       say "Setting up your junk home in #{junk_home}..."
       Dir.mkdir junk_home unless File.exists? junk_home
 
-      inside(junk_home) do
+      Dir.chdir(junk_home) do
         print ">>> "
         system("git init")
       end
@@ -213,29 +213,6 @@ EOS
         Dir.chdir ".."
       end
     end
-
-    #################################################################
-    # Taken from Thor
-    # Copyright (c) 2008 Yehuda Katz
-    #
-    def inside(dir, &block)
-      @destination_stack.push File.expand_path(dir, destination_root)
-
-      FileUtils.cd(destination_root) { block.arity == 1 ? yield(destination_root) : yield }
-
-      @destination_stack.pop
-    end
-
-    def destination_root
-      @destination_stack.last
-    end
-
-    def destination_root=(root)
-      @destination_stack ||= []
-      @destination_stack[0] = File.expand_path(root || '')
-    end
-    #
-    #################################################################
 
     def add_to_git_ignore(path)
       if File.exists? ".gitignore"
