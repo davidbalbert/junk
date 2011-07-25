@@ -5,7 +5,7 @@ require 'trollop'
 module Junk
   class Command
 
-    PROXY_COMMANDS = %w(add commit diff)
+    PROXY_COMMANDS = %w(add commit diff remote)
     SUB_COMMANDS = %w(init track status help) + PROXY_COMMANDS
 
     HELP_STRING = <<-EOS
@@ -140,13 +140,13 @@ EOS
 
     def status
       Dir.chdir(junk_repo!) do
-        exec("git status .")
+        exec_git_or_hub("status .")
       end
     end
 
     def proxy_command(cmd)
       Dir.chdir(junk_repo!) do
-        exec("git #{cmd} #{@args.join(" ")}")
+        exec_git_or_hub("#{cmd} #{@args.join(" ")}")
       end
     end
 
@@ -222,6 +222,18 @@ EOS
           f.puts(path)
         end
       end
+    end
+
+    def exec_git_or_hub(cmd)
+      if has_hub?
+        exec("hub #{cmd}")
+      else
+        exec("git #{cmd}")
+      end
+    end
+
+    def has_hub?
+      @has_hub ||= (`which hub` != "")
     end
 
     def junk_home

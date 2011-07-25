@@ -55,6 +55,16 @@ Junk requires a version of git. It will probably work with most versions, but I 
     $ cd `junk --home`
     # run your git commands here!
 
+## Hub support!
+
+Junk supports defunkt/hub out of the box. If you have hub installed in your path, junk will see it. This means you can do this:
+
+    $ junk remote add -p origin YOUR_GITHUB_USERNAME/myjunk
+    $ junk remote -v
+    origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (fetch) # look, hub added expanded your private remote url!
+    origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (push)
+
+
 ## Who are you?
 
 I'm [Dave](http://dave.is/).
