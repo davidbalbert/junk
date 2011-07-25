@@ -6,13 +6,14 @@ module Junk
   class Command
 
     PROXY_COMMANDS = %w(add commit diff remote push pull)
-    SUB_COMMANDS = %w(init track status help) + PROXY_COMMANDS
+    SUB_COMMANDS = %w(init track status clone help) + PROXY_COMMANDS
 
     HELP_STRING = <<-EOS
 usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
 
 Commands:
    init     Initialize a new junk drawer for the current directory
+   clone    Clones a git repo into ~/.junkd
    track    Moves a file to the junk drawer and symlinks it from it's old location
    help     Displays information about a command
 
@@ -23,6 +24,7 @@ EOS
 
     CMD_HELP_STRINGS = {
       "init" => "usage: junk init\n\nInitialize a new junk drawer for the current directory",
+      "clone" => "usage: junk clone REMOTE\n\nClone REMOTE into ~/.junkd",
       "track" => "usage: junk track FILE\n\nMoves FILE to the junk drawer and symlinks it from it's old location",
       "status" => "usage: junk status\n\nRuns `git status` in the current junk drawer",
       "help" => "usage: junk help COMMAND\n\nShows usage information for COMMAND"
@@ -135,6 +137,12 @@ EOS
         File.symlink(new_path, relative_path)
 
         add_to_git_ignore(relative_path)
+      end
+    end
+
+    def clone
+      Dir.chdir(ENV["HOME"]) do
+        exec_git_or_hub("clone #{@args.join(" ")} .junkd")
       end
     end
 
