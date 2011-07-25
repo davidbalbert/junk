@@ -103,7 +103,7 @@ EOS
     def track
       file = @args.shift
 
-      Dir.chdir(find_junk_drawer_symlink!) do
+      Dir.chdir(parent_with_junk_drawer!) do
         unless File.exists? file
           error "#{file} doesn't seem to exist."
           exit(1)
@@ -205,7 +205,7 @@ EOS
       say ""
     end
 
-    def find_junk_drawer_symlink!
+    def parent_with_junk_drawer!
       old_pwd = Dir.pwd
 
       loop do
@@ -254,7 +254,7 @@ EOS
     end
 
     def junk_repo!
-      junk_drawer_for_directory(find_junk_drawer_symlink!)
+      junk_drawer_for_directory(parent_with_junk_drawer!)
     end
 
     def junk_drawer_for_directory(dir)
