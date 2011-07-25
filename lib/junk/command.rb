@@ -35,7 +35,6 @@ EOS
     attr_reader :args
     def initialize(*args)
       @args = args
-      self.destination_root = Dir.pwd
     end
 
     def self.run(*args)
