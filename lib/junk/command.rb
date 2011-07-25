@@ -5,7 +5,7 @@ require 'trollop'
 module Junk
   class Command
 
-    PROXY_COMMANDS = %w(add commit diff remote push pull)
+    PROXY_COMMANDS = %w(add commit diff remote push pull log)
     SUB_COMMANDS = %w(init track status clone help) + PROXY_COMMANDS
 
     HELP_STRING = <<-EOS
