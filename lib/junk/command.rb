@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'find'
 require 'pathname'
 require 'trollop'
 
@@ -6,7 +7,7 @@ module Junk
   class Command
 
     PROXY_COMMANDS = %w(add commit diff remote push pull log)
-    SUB_COMMANDS = %w(init track status clone help) + PROXY_COMMANDS
+    SUB_COMMANDS = %w(init clone track link unlink help status) + PROXY_COMMANDS
 
     HELP_STRING = <<-EOS
 usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
@@ -15,6 +16,8 @@ Commands:
    init     Initialize a new junk drawer for the current directory
    clone    Clones a git repo into ~/.junkd
    track    Moves a file to the junk drawer and symlinks it from it's old location
+   link     Creates symlinks to all the files in your current junk drawer
+   unlink   Removes any symlinks pointing to the current junk drawer
    help     Displays information about a command
 
 Proxy Commands (passed to git):
@@ -26,6 +29,8 @@ EOS
       "init" => "usage: junk init\n\nInitialize a new junk drawer for the current directory",
       "clone" => "usage: junk clone REMOTE\n\nClone REMOTE into ~/.junkd",
       "track" => "usage: junk track FILE\n\nMoves FILE to the junk drawer and symlinks it from it's old location",
+      "link" => "usage: junk link\n\nCreates symlinks to all the files in your current junk drawer",
+      "unlink" => "usage: junk unlink\n\nRemoves any symlinks pointing to the current junk drawer",
       "status" => "usage: junk status\n\nRuns `git status` in the current junk drawer",
       "help" => "usage: junk help COMMAND\n\nShows usage information for COMMAND"
     }
@@ -138,6 +143,29 @@ EOS
         File.symlink(new_path, relative_path)
 
         add_to_git_ignore(relative_path)
+      end
+    end
+
+    def unlink
+      junk_repo = junk_repo! # junk_repo! uses Dir.chdir without a block. Will fix this later maybe
+      Dir.chdir(parent_with_junk_drawer!) do |dir|
+        Find.find(Dir.pwd) do |path|
+          if File.directory? path
+            if File.basename(path)[0] == ?.
+              Find.prune
+            end
+          elsif File.symlink? path
+            if File.readlink(path).start_with? junk_repo
+              puts "unlinking #{path}"
+              File.unlink(path)
+            end
+          end
+        end
+
+        if File.exists? ".junk"
+          puts "unlinking #{dir}/.junk"
+          File.unlink(".junk")
+        end
       end
     end
 
