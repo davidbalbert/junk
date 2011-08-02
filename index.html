@@ -8,7 +8,7 @@
   <style type="text/css">
     body {
       margin-top: 1.0em;
-      background-color: #d92b19;
+      background-color: #b92b19;
       font-family: Helvetica, Arial, FreeSans, san-serif;
       color: #ffffff;
     }
@@ -16,15 +16,15 @@
       margin: 0 auto;
       width: 700px;
     }
-    h1 { font-size: 3.8em; color: #26d4e6; margin-bottom: 3px; }
+    h1 { font-size: 3.8em; color: #151512; margin-bottom: 3px; }
     h1 .small { font-size: 0.4em; }
     h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #26d4e6; }
-    h3 { text-align: center; color: #26d4e6; }
-    a { color: #26d4e6; }
+    h2 { font-size: 1.5em; color: #151512; }
+    h3 { text-align: center; color: #151512; }
+    a { color: #151512; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
+    pre { background: #151512; color: #fff; padding: 15px;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
   </style>
@@ -42,26 +42,61 @@
         <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
     </div>
 
-    <h1><a href="http://github.com/davidbalbert/junk">junk</a>
-      <span class="small">by <a href="http://github.com/davidbalbert">davidbalbert</a></span></h1>
+    <h1><a href="http://github.com/davidbalbert/junk">junk</a></h1>
 
     <div class="description">
       A place to keep all the stuff you're not supposed to commit.
     </div>
 
-    <p>Junk is a light wrapper around git. Your junk drawer is where you can commit things that you're not supposed to commit to your actual repository. This includes your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your own development machines.
+    <p>Junk is a light wrapper around git. Your junk drawer is where you can commit things that you're not supposed to commit to your actual repository. This includes your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your own development machines.</p>
 
-Behind the scenes, junk moves your junk files into a git repository stored in ~/.junkd and symlinks to them from their original location. Many junk commands just run the analogous git command in ~/.junkd.
+    <p>Behind the scenes, junk moves your junk files into a git repository stored in ~/.junkd and symlinks to them from their original location. Many junk commands just run the analogous git command in ~/.junkd.
 </p><h2>Dependencies</h2>
-<p>trollop</p>
-<h2>Install</h2>
-<p>$ gem install junk</p>
+<p>Junk depends on <a href="http://git-scm.org/">git</a>. It also depends on <a href="http://trollop.rubyforge.org/">trollop</a>, an excelent option parsing library written by <a href="http://masanjin.net/">William Morgan</a>.</p>
+<h2>Install it!</h2>
+<p><pre>$ gem install junk</pre></p>
+<h2>Use it!</h2>
+<p><pre>
+$ cd myproject
+$ junk init
+Alright, /path/to/myproject now has a junk drawer.
+
+$ junk track .rvmrc
+Now tracking .rvmrc in your junk drawer
+
+# Edit .rvmrc
+
+$ junk status
+# runs git status in your junk drawer
+
+$ junk add .rvmrc # proxy's to git
+$ junk commit -m "tracking my .rvmrc file in junk"
+
+$ junk remote add origin YOUR_GIT_REMOTE
+$ junk push -u origin master
+
+# on your other development machine
+$ cd myproject
+
+# for first time setup
+$ junk clone JUNK_REPO
+
+# or if you have already cloned the repo
+$ junk pull
+
+$ junk link
+</pre></p>
+<h2>Get help!</h2>
+<p><pre>
+$ junk help
+# that was easy :)
+</pre></p>
 <h2>License</h2>
 <p>Junk is licensed under the MIT License. See LICENSE.md for more information.</p>
 <h2>Authors</h2>
-<p>David Albert (davidbalbert@gmail.com)<br/><br/>      </p>
+<p>David Albert (<a href="http://dave.is">dave.is</a>)<br/><br/>      </p>
 <h2>Contact</h2>
-<p>David Albert (davidbalbert@gmail.com)<br/>      </p>
+<p>David Albert (davidbalbert.AT.gmail.DOT.com)<br/>      </p>
 
 
     <h2>Download</h2>
