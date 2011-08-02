@@ -166,15 +166,19 @@ EOS
       end
 
       say "found junk drawer #{junk_drawer}"
-      say "linking #{junk_drawer} => .junk"
-      File.symlink(junk_drawer, ".junk")
+      unless File.exists? ".junk"
+        say "linking #{junk_drawer} => .junk"
+        File.symlink(junk_drawer, ".junk")
+      end
 
       junk_drawer_path = Pathname.new(junk_drawer)
       Find.find(junk_drawer) do |path|
         unless File.directory? path
           rel_path = Pathname.new(path).relative_path_from(junk_drawer_path).to_s
-          say "linking #{path} => #{rel_path}"
-          File.symlink(path, rel_path)
+          unless File.exists? rel_path
+            say "linking #{path} => #{rel_path}"
+            File.symlink(path, rel_path)
+          end
         end
       end
     end
