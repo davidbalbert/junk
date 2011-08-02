@@ -21,7 +21,8 @@
     h1 a { text-decoration: none }
     h2 { font-size: 1.5em; color: #151512; }
     h3 { text-align: center; color: #151512; }
-    a { color: #151512; }
+    a { color: #000077; text-decoration: none; font-weight: bold; }
+    a:hover { text-decoration: underline; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
     pre { background: #151512; color: #fff; padding: 15px;}
@@ -86,6 +87,14 @@ $ junk pull
 
 $ junk link
 </pre></p>
+<h2>Use it with Hub!</h2>
+<p>Junk has support for <a href="http://defunkt.io/hub">hub</a>. If you have hub installed in your path, junk will send any git commands to hub instead. For instance:</p>
+<p><pre>$ junk remote add -p origin YOUR_GITHUB_USERNAME/myjunk
+$ junk remote -v
+origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (fetch)
+origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (push)
+</pre></p>
+<p>Cool huh?</p>
 <h2>Get help!</h2>
 <p><pre>
 $ junk help
@@ -94,7 +103,7 @@ $ junk help
 <h2>License</h2>
 <p>Junk is licensed under the MIT License. See LICENSE.md for more information.</p>
 <h2>Authors</h2>
-<p>David Albert (<a href="http://dave.is">dave.is</a>)<br/><br/>      </p>
+<p>David Albert (<a href="http://dave.is">dave.is</a>)<br/>      </p>
 <h2>Contact</h2>
 <p>David Albert (davidbalbert.AT.gmail.DOT.com)<br/>      </p>
 
