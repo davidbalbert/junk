@@ -10,8 +10,7 @@
       margin-top: 1.0em;
       background-color: #b92b19;
       font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #bbb;
-      line-height: 1.4em;
+      color: #fff;
     }
     #container {
       margin: 0 auto;
@@ -19,16 +18,15 @@
     }
     h1 { font-size: 3.8em; color: #151512; margin-bottom: 3px; }
     h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
+    h1 a { color: #151512; text-decoration: none }
     h2 { font-size: 1.5em; color: #151512; }
     h3 { text-align: center; color: #151512; }
     a { color: #000077; text-decoration: none; font-weight: bold; }
-    p a { color: blue; }
     a:hover { text-decoration: underline; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
-    pre { background: #151512; color: #bbb; padding: 15px;}
-    p { background: #151512; padding: 15px;}
+    pre { background: #151512; color: #fff; padding: 15px;}
+    /*p { background: #151512; padding: 15px;}*/
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
   </style>
@@ -52,12 +50,13 @@
       A place to keep all the stuff you're not supposed to commit.
     </div>
 
-    <p>Junk tracks all the files you're not supposed to commit to version control. At its core, its just a wrapper around git. Junk creates junk drawers for each of your projects in ~/.junkd, which is a git repository. When you tell junk to track a file, it moves the file into your project's junk drawer and symlinks it from its original location. If you're using git to manage your project, junk will also add the symlink to your .gitignore file. You can then use junk to run common git commands from within your project's drawer.</p>
+    <p>Junk is a simple wrapper around git that tracks all the files you're not supposed to commit. This might include your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your development machines.</p>
 
-    <p>Junk is useful for tracking your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your development machines without polluting your repository.</p>
+    <p>Behind the scenes, junk moves your tracked files into a git repository stored in ~/.junkd and symlinks to them from their original location. If it finds a .gitignore file, junk will add the symlink there too. Many junk commands just run the analogous git command in ~/.junkd.</p>
+
 
 <h2>Dependencies</h2>
-<p>Junk depends on <a href="http://git-scm.org/">git</a>. It also depends on <a href="http://trollop.rubyforge.org/">trollop</a>, an excelent option parsing library written by <a href="http://masanjin.net/">William Morgan</a>.</p>
+<p>Junk depends on <a href="http://git-scm.com/">git</a>. It also depends on <a href="http://trollop.rubyforge.org/">trollop</a>, an excelent option parsing library written by <a href="http://masanjin.net/">William Morgan</a>.</p>
 <h2>Install it!</h2>
 <pre>$ gem install junk</pre>
 <h2>Use it!</h2>
@@ -74,7 +73,7 @@ Now tracking .rvmrc in your junk drawer
 $ junk status
 # runs git status in your junk drawer
 
-$ junk add .rvmrc # proxy's to git
+$ junk add .rvmrc
 $ junk commit -m "tracking my .rvmrc file in junk"
 
 $ junk remote add origin YOUR_GIT_REMOTE
