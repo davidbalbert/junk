@@ -52,7 +52,7 @@
 
     <p>Junk is a simple wrapper around git that tracks all the files you're not supposed to commit. This might include your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your development machines.</p>
 
-    <p>Behind the scenes, junk moves your tracked files into a git repository stored in ~/.junkd and symlinks to them from their original location. If it finds a .gitignore file, junk will add the symlink there too. Many junk commands just run the analogous git command in ~/.junkd.</p>
+    <p>Behind the scenes, junk moves your tracked files into a git repository stored in ~/.junkd and symlinks to them from their original location. If it finds a .gitignore file, junk will make sure git ignores the symlink. Many junk commands just run the analogous git command in ~/.junkd.</p>
 
 
 <h2>Dependencies</h2>
