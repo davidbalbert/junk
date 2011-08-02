@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["davidbalbert@gmail.com"]
   s.homepage    = "http://github.com/davidbalbert/junk"
   s.summary     = %q{A place to keep all the stuff you're not supposed to commit.}
-  s.description = %q{Junk Drawer is a git backed place to commit the files that you're not supposed to commit to your repository. It's useful for keeping your multiple development machines in sync.}
+  s.description = %q{Junk is a simple wrapper around git that tracks all the files you're not supposed to commit.}
 
   s.rubyforge_project = "junk"
 
