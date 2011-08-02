@@ -68,6 +68,9 @@ Junk supports [hub](https://github.com/defunkt/hub) out of the box. If you have 
     origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (fetch) # look, hub added expanded your private remote url!
     origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (push)
 
+## License
+
+Junk is licensed under the MIT License. See LICENSE.md for more information.
 
 ## Who are you?
 
