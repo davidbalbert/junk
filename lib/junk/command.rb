@@ -16,7 +16,7 @@ Commands:
    init     Initialize a new junk drawer for the current directory
    clone    Clones a git repo into ~/.junkd
    track    Moves a file to the junk drawer and symlinks it from it's old location
-   link     Creates symlinks to all the files in your current junk drawer
+   link     Links in the junk drawer with the same name as the current directory
    unlink   Removes any symlinks pointing to the current junk drawer
    help     Displays information about a command
 
@@ -29,7 +29,7 @@ EOS
       "init" => "usage: junk init\n\nInitialize a new junk drawer for the current directory",
       "clone" => "usage: junk clone REMOTE\n\nClone REMOTE into ~/.junkd",
       "track" => "usage: junk track FILE\n\nMoves FILE to the junk drawer and symlinks it from it's old location",
-      "link" => "usage: junk link\n\nCreates symlinks to all the files in your current junk drawer",
+      "link" => "usage: junk link\n\nCreates symlinks to to all the files in the junk drawer with the same name as the current directory",
       "unlink" => "usage: junk unlink\n\nRemoves any symlinks pointing to the current junk drawer",
       "status" => "usage: junk status\n\nRuns `git status` in the current junk drawer",
       "help" => "usage: junk help COMMAND\n\nShows usage information for COMMAND"
@@ -149,6 +149,33 @@ EOS
         File.symlink(new_path, relative_path)
 
         add_to_git_ignore(relative_path)
+      end
+    end
+
+    def link
+      junk_drawer = junk_drawer_for_directory(Dir.pwd)
+
+      unless File.directory? junk_drawer
+        if File.exists? junk_home
+          error "#{junk_drawer} doesn't exist. Are you in the root directory of your project?"
+        else
+          error "#{junk_drawer} doesn't exist. Have you cloned your junk repo yet?"
+        end
+
+        exit(1)
+      end
+
+      say "found junk drawer #{junk_drawer}"
+      say "linking #{junk_drawer} => .junk"
+      File.symlink(junk_drawer, ".junk")
+
+      junk_drawer_path = Pathname.new(junk_drawer)
+      Find.find(junk_drawer) do |path|
+        unless File.directory? path
+          rel_path = Pathname.new(path).relative_path_from(junk_drawer_path).to_s
+          say "linking #{path} => #{rel_path}"
+          File.symlink(path, rel_path)
+        end
       end
     end
 
