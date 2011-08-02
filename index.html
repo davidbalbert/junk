@@ -10,7 +10,8 @@
       margin-top: 1.0em;
       background-color: #b92b19;
       font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
+      color: #bbb;
+      line-height: 1.4em;
     }
     #container {
       margin: 0 auto;
@@ -22,10 +23,12 @@
     h2 { font-size: 1.5em; color: #151512; }
     h3 { text-align: center; color: #151512; }
     a { color: #000077; text-decoration: none; font-weight: bold; }
+    p a { color: blue; }
     a:hover { text-decoration: underline; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
-    pre { background: #151512; color: #fff; padding: 15px;}
+    pre { background: #151512; color: #bbb; padding: 15px;}
+    p { background: #151512; padding: 15px;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
   </style>
@@ -49,15 +52,16 @@
       A place to keep all the stuff you're not supposed to commit.
     </div>
 
-    <p>Junk is a light wrapper around git. Your junk drawer is where you can commit things that you're not supposed to commit to your actual repository. This includes your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your own development machines.</p>
+    <p>Junk tracks all the files you're not supposed to commit to version control. At its core, its just a wrapper around git. Junk creates junk drawers for each of your projects in ~/.junkd, which is a git repository. When you tell junk to track a file, it moves the file into your project's junk drawer and symlinks it from its original location. If you're using git to manage your project, junk will also add the symlink to your .gitignore file. You can then use junk to run common git commands from within your project's drawer.</p>
 
-    <p>Behind the scenes, junk moves your junk files into a git repository stored in ~/.junkd and symlinks to them from their original location. Many junk commands just run the analogous git command in ~/.junkd.
-</p><h2>Dependencies</h2>
+    <p>Junk is useful for tracking your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your development machines without polluting your repository.</p>
+
+<h2>Dependencies</h2>
 <p>Junk depends on <a href="http://git-scm.org/">git</a>. It also depends on <a href="http://trollop.rubyforge.org/">trollop</a>, an excelent option parsing library written by <a href="http://masanjin.net/">William Morgan</a>.</p>
 <h2>Install it!</h2>
-<p><pre>$ gem install junk</pre></p>
+<pre>$ gem install junk</pre>
 <h2>Use it!</h2>
-<p><pre>
+<pre>
 $ cd myproject
 $ junk init
 Alright, /path/to/myproject now has a junk drawer.
@@ -86,20 +90,20 @@ $ junk clone JUNK_REPO
 $ junk pull
 
 $ junk link
-</pre></p>
+</pre>
 <h2>Use it with Hub!</h2>
 <p>Junk has support for <a href="http://defunkt.io/hub">hub</a>. If you have hub installed in your path, junk will send any git commands to hub instead. For instance:</p>
-<p><pre>$ junk remote add -p origin YOUR_GITHUB_USERNAME/myjunk
+<pre>$ junk remote add -p origin YOUR_GITHUB_USERNAME/myjunk
 $ junk remote -v
 origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (fetch)
 origin  git@github.com:YOUR_GITHUB_USERNAME/myjunk.git (push)
-</pre></p>
+</pre>
 <p>Cool huh?</p>
 <h2>Get help!</h2>
-<p><pre>
+<pre>
 $ junk help
 # that was easy :)
-</pre></p>
+</pre>
 <h2>License</h2>
 <p>Junk is licensed under the MIT License. See LICENSE.md for more information.</p>
 <h2>Authors</h2>
@@ -113,11 +117,10 @@ $ junk help
       You can download this project in either
       <a href="http://github.com/davidbalbert/junk/zipball/master">zip</a> or
       <a href="http://github.com/davidbalbert/junk/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/davidbalbert/junk</pre>
-    </p>
+      <br />
+    You can also clone the project with <a href="http://git-scm.com">Git</a>
+    by running:</p>
+    <pre>$ git clone git://github.com/davidbalbert/junk</pre>
 
     <div class="footer">
       get the source code on GitHub : <a href="http://github.com/davidbalbert/junk">davidbalbert/junk</a>
