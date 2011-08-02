@@ -2,9 +2,9 @@
 
 ## About
 
-Junk is a light wrapper around git. Your junk drawer is where you can commit things that you're not supposed to commit to your actual repository. This includes your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your own development machines.
+Junk tracks all the files you're not supposed to commit to version control. At its core, its just a wrapper around git. Junk creates junk drawers for each of your projects in ~/.junkd, which is a git repository. When you tell junk to track a file, it moves the file into your project's junk drawer and symlinks it from its original location. If you're using git to manage your project, junk will also add the symlink to your .gitignore file. You can then use junk to run common git commands from within your project's drawer.
 
-Behind the scenes, junk moves your junk files into a git repository stored in ~/.junkd and symlinks to them from the original location. Many junk commands just run the analogous git command in ~/.junkd.
+Junk is useful for tracking your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your development machines without polluting your repository.
 
 ## Install (doesn't work yet)
 
