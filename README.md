@@ -4,7 +4,7 @@
 
 Junk is a light wrapper around git. Your junk drawer is where you can commit things that you're not supposed to commit to your actual repository. This includes your .rvmrc files, sqlite development databases, and any other local project settings files. It's good for keeping your local configs synced across your own development machines.
 
-Behind the scenes, junk moves your junk files into a git repository stored in ~/.junk and symlinks to them from the original location. Many junk commands just run the analogous git command in ~/.junk.
+Behind the scenes, junk moves your junk files into a git repository stored in ~/.junkd and symlinks to them from the original location. Many junk commands just run the analogous git command in ~/.junkd.
 
 ## Install (doesn't work yet)
 
@@ -49,11 +49,15 @@ Junk requires a version of git. It will probably work with most versions, but I 
 ## Other commands
 
     $ junk --home
-    ~/.junk
+    ~/.junkd
 
     # to do any custom git stuff like changing your junk remote, just cd to the junk home and go from there.
     $ cd `junk --home`
     # run your git commands here!
+
+    $ cd myproject
+    $ junk --drawer
+    ~/.junkd/myproject
 
 ## Hub support!
 
