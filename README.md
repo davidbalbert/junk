@@ -6,7 +6,7 @@ Junk is a simple wrapper around git that tracks all the files you're not suppose
 
 Behind the scenes, junk moves your tracked files into a git repository stored in ~/.junkd and symlinks to them from their original location. If it finds a .gitignore file, junk will make sure git ignores the symlink. Many junk commands just run the analogous git command in ~/.junkd.
 
-## Install (doesn't work yet)
+## Install
 
     $ gem install junk
 
