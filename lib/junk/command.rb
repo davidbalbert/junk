@@ -10,7 +10,7 @@ module Junk
     SUB_COMMANDS = %w(init clone track link unlink help status) + PROXY_COMMANDS
 
     HELP_STRING = <<-EOS
-usage: junk [-v|--version] [--home] [-h|--help] COMMAND [ARGS]
+usage: junk [-v|--version] [--home] [--drawer] [-h|--help] COMMAND [ARGS]
 
 Commands:
    init     Initialize a new junk drawer for the current directory
@@ -53,6 +53,7 @@ EOS
         version "Junk #{Junk::VERSION}"
         banner "#{HELP_STRING}\nOptions:"
         opt :home, "Prints junk's home directory", :short => :none
+        opt :drawer, "Prints the junk drawer for the current directory", :short => :none
         stop_on SUB_COMMANDS
       end
 
@@ -64,6 +65,11 @@ EOS
 
       if @global_opts[:home]
         puts junk_home
+        exit(0)
+      end
+
+      if @global_opts[:drawer]
+        puts junk_repo!
         exit(0)
       end
 
